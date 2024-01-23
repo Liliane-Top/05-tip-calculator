@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function App() {
   const [amount, setAmount] = useState(0);
   const [myPercentage, setMyPercentage] = useState(0);
   const [friendPercentage, setMyFriendPercentage] = useState(0);
+  const inputRef = useRef();
 
   function handleReset() {
     setAmount(0);
     setMyPercentage(0);
     setMyFriendPercentage(0);
+    inputRef.current.value = null;
   }
 
   return (
     <div>
-      <Bill onSetAmount={setAmount} />
+      <Bill onSetAmount={setAmount} inputRef={inputRef} />
       <Percentage onSetPercentage={setMyPercentage}>
         How did you like the service?
       </Percentage>
@@ -30,7 +32,7 @@ export default function App() {
   );
 }
 
-function Bill({ onSetAmount }) {
+function Bill({ onSetAmount, inputRef }) {
   return (
     <div>
       <h3>How much was the bill?</h3>
@@ -38,6 +40,7 @@ function Bill({ onSetAmount }) {
         type="text"
         placeholder="Insert amount"
         onChange={(e) => onSetAmount(e.target.value)}
+        ref={inputRef}
       />
     </div>
   );
