@@ -5,21 +5,28 @@ export default function App() {
   const [myPercentage, setMyPercentage] = useState(0);
   const [friendPercentage, setMyFriendPercentage] = useState(0);
   const inputRef = useRef();
+  const optionMyRef = useRef();
+  const optionFriendRef = useRef();
 
   function handleReset() {
     setAmount(0);
     setMyPercentage(0);
     setMyFriendPercentage(0);
     inputRef.current.value = null;
+    optionMyRef.current.value = 0;
+    optionFriendRef.current.value = 0;
   }
 
   return (
     <div>
       <Bill onSetAmount={setAmount} inputRef={inputRef} />
-      <Percentage onSetPercentage={setMyPercentage}>
+      <Percentage onSetPercentage={setMyPercentage} optionRef={optionMyRef}>
         How did you like the service?
       </Percentage>
-      <Percentage onSetPercentage={setMyFriendPercentage}>
+      <Percentage
+        onSetPercentage={setMyFriendPercentage}
+        optionRef={optionFriendRef}
+      >
         How did your friend like the service?
       </Percentage>
       <OutPut
@@ -46,11 +53,11 @@ function Bill({ onSetAmount, inputRef }) {
   );
 }
 
-function Percentage({ onSetPercentage, children }) {
+function Percentage({ onSetPercentage, optionRef, children }) {
   return (
     <div>
       <h3>{children}</h3>
-      <select onChange={(e) => onSetPercentage(e.target.value)}>
+      <select onChange={(e) => onSetPercentage(e.target.value)} ref={optionRef}>
         <option value={0}>Dissatisfied(0%)</option>
         <option value={5}>It was okay(5%)</option>
         <option value={10}>It was good(10%)</option>
